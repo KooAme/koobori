@@ -31,12 +31,14 @@ export const postEdit = async (req, res) => {
   if (!video) {
     return res.render('404', { pageTitle: 'Video not found.' });
   }
-  video.title = title;
-  video.description = description;
-  video.hashtags = hashtags
-    .split(',')
-    .map((word) => (word.startsWith('#') ? word : `#${word}`));
-  await video.save();
+  await Video.findByIdAndUpdate(id, {
+    //mongoose function
+    title,
+    description,
+    hashtags: hashtags
+      .split(',')
+      .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+  });
   return res.redirect(`/videos/${id}`); //그저 이쪽으로 가게 해주는 역할
 };
 

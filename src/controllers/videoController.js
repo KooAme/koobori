@@ -35,9 +35,7 @@ export const postEdit = async (req, res) => {
     //mongoose function
     title,
     description,
-    hashtags: hashtags
-      .split(',')
-      .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+    hashtags: Video.formatHashtags(hashtags),
   });
   return res.redirect(`/videos/${id}`); //그저 이쪽으로 가게 해주는 역할
 };
@@ -47,14 +45,14 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const { title, description, hashtags } = req.body;
   try {
     await Video.create({
       //Video.save(); 도 가능함
       title,
       description,
-      hashtags,
+      hashtags: Video.formatHashtags(hashtags),
     });
-
     return res.redirect('/');
   } catch (error) {
     return res.render('upload', {

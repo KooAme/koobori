@@ -11,5 +11,14 @@ const videoSchema = new mongoose.Schema({
   }, //schema power
 });
 
+//mongoose 의 middleware는 모델이 생성되기 전에 만들어 줘야 함
+videoSchema.pre('save', async function () {
+  //middleware function에서는 this가 주어지는데
+  //이 this는 우리가 저장하고자 하는 문서를 가르킴
+  this.hashtags = this.hashtags[0]
+    .split(',')
+    .map((word) => (word.startsWith('#') ? word : `#${word}`));
+});
+
 const Video = mongoose.model('Video', videoSchema);
 export default Video;

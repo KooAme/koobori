@@ -17,7 +17,7 @@ export const watch = async (req, res) => {
 //console.log(req.params);
 export const getEdit = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id);
+  const video = await Video.findById(id); //edit템플릿에 video object를 보내야해서 exists가 필요없음
   if (!video) {
     return res.render('404', { pageTitle: 'Video Not found' });
   }
@@ -27,7 +27,7 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const video = await Video.findById(id);
+  const video = await Video.exists({ _id: id }); //exists는 filter를 받음
   if (!video) {
     return res.render('404', { pageTitle: 'Video not found.' });
   }
@@ -52,9 +52,7 @@ export const postUpload = async (req, res) => {
       //Video.save(); 도 가능함
       title,
       description,
-      hashtags: hashtags
-        .split(',')
-        .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+      hashtags,
     });
 
     return res.redirect('/');

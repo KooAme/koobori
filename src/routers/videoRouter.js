@@ -5,6 +5,7 @@ import {
   watch,
   getEdit,
   getUpload,
+  deleteVideo,
   postUpload,
 } from '../controllers/videoController';
 
@@ -16,6 +17,7 @@ const videoRouter = express.Router();
 //id라는 이름은 필요없지만, controller에게 id는 매우 중요하기 때문에 만드는것이 좋음.
 videoRouter.get('/:id([0-9a-f]{24})', watch); //:parameter 가 없으면 모든 영상마다 router을 만들어야 함. ':' url안에 변수를 만들 수 있음, ID number
 videoRouter.route('/:id([0-9a-f]{24})/edit').get(getEdit).post(postEdit);
+videoRouter.route('/:id([0-9a-f]{24})/delete').get(deleteVideo);
 videoRouter.route('/upload').get(getUpload).post(postUpload);
 //url 이 같은 경우 route로 한번에 할 수 있음. 코드도 줄고 실수도 줄어듦
 //regular expression 은 공부를 더 할것 ! 유용함

@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const videoSchema = new mongoose.Schema({
-  title: { type: String, required: true, trim: true, minLength: 10 },
-  description: { type: String, required: true, trim: true, maxLength: 20 },
+  title: { type: String, required: true, trim: true, maxlength: 80 },
+  description: { type: String, required: true, trim: true, minlength: 2 },
   createdAt: { type: Date, required: true, default: Date.now }, //바로 실행시키지 않으려고 now()를 안함
   hashtags: [{ type: String, trim: true }],
   meta: {
